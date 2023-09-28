@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Your NFT to the Marketplace</title>
+</head>
+
+<body>
+    <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); max-width: 400px; margin: 0 auto;">
+        <h1 style="font-size: 1.5rem; font-weight: bold; margin-bottom: 20px;">Upload Your NFT to the Marketplace</h1>
+
+        <form id="myForm" action="/submit-form" method="POST" enctype="multipart/form-data">
+            <div style="margin-bottom: 10px;">
+                <label for="nftName" style="font-weight: bold; font-size: 0.875rem; color: #333;">NFT Name:</label>
+                <input type="text" id="nftName" name="nftName" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label for="nftDescription" style="font-weight: bold; font-size: 0.875rem; color: #333;">NFT Description:</label>
+                <textarea id="nftDescription" name="nftDescription" rows="4" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label for="priceEth" style="font-weight: bold; font-size: 0.875rem; color: #333;">Price (in ETH):</label>
+                <input type="number" step="0.01" id="priceEth" name="priceEth" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+
+            <div style="margin-bottom: 10px;">
+                <label for="imageUpload" style="font-weight: bold; font-size: 0.875rem; color: #333;">Upload Image:</label>
+                <input type="file" id="imageUpload" name="imageUpload" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+            </div>
+
+            <div style="padding-top: 10px;">
+                <button type="submit" name="submit" form="myForm" style="background-color: #3490dc; color: #ffffff; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">List NFT</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Your NFT to the Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-semibold mb-4">Upload Your NFT to the Marketplace</h1>
+
+        <form id="myForm" action="/submit-form" method="post" enctype="multipart/form-data">
+            <div class="mb-4">
+                <label for="nftName" class="block text-gray-600">NFT Name:</label>
+                <input type="text" id="nftName" name="nftName" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+            </div>
+
+            <div class="mb-4">
+                <label for="nftDescription" class="block text-gray-600">NFT Description:</label>
+                <textarea id="nftDescription" name="nftDescription" rows="4" required
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500"></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label for="priceEth" class="block text-gray-600">Price (in ETH):</label>
+                <input type="number" step="0.01" id="priceEth" name="priceEth" required
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+            </div>
+
+           <div class="mb-4">
+                <label for="imageUpload" class="block text-gray-600">Upload Image:</label>
+                <input type="file" id="imageUpload" name="imageUpload" accept="image/*" required class="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+            </div> 
+
+
+            <div id = "demo" class="flex items-center justify-center w-full">
+                <label for="dropzone-file"
+                    class="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                        </svg>
+                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
+                                upload</span> or drag and drop</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    </div>
+                    <input id="dropzone-file" type="file" class="hidden" />
+                </label>
+            </div>
+            <div class="py-2"> <button type="submit" name="submit"
+                    class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600">List
+                    NFT</button>
+            </div>
+        </form>
+    </div>
+    <script >
+        document.getElementById("demo").innerHTML = "Hello JavaScript!";
+
+        const form = document.getElementById("myForm");
+        
+        form.addEventListener("submit", function () {
+          // Prevent the default form submission behavior (page reload)
+          event.preventDefault();
+        
+          
+          const formData = new FormData(form);
+          const nftName = formData.get("nftName");
+          const nftDescription = formData.get("nftDescription");
+          const priceEth = formData.get("priceEth");
+        
+        
+          console.log("NFT Name:", nftName);
+          console.log("NFT Description:", nftDescription);
+          console.log("Price (in ETH):", priceEth);
+        
+         //this is client side script, should i sent to backend to use ipfs api or ?
+          
+          fetch("/submit-form", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.text())
+            .then((data) => {
+              console.log("Response from server:", data);
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+          
+        });
+        </script>    
+</body>
+</html>
+<!-- type="application/javascript" src="/js/scripts.js" -->
