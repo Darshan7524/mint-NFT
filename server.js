@@ -21,16 +21,13 @@ const PRIVATE_KEY = process.env.PRIVATE_KEY
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
 const web3 = createAlchemyWeb3(API_URL)
 
-// const Web3 = require('web3');
-// let web33 = new Web3("ws://localhost:8545");
-
-
-const contract = require("./artifacts/contracts/MyNFT.sol/MyNFT.json")
+const contract = require("./artifacts/contracts/MyNFT.sol/MyNFT.json");
+const { type } = require('os');
 const contractAddress = "0x2b4560DeF5c3dF9DC807025e5cF0FFbf37b954A6"
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3003;
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -134,41 +131,29 @@ const IpfsHash = await pinFileToIPFS();
 // respData = await resp.json();
 // const IpfsHash = respData.IpfsHash;
 const IpfsHashJson = await uploadMetadata();
-const hash = await mintNFT("ipfs://"+IpfsHashJson)
+  const hash = await mintNFT("ipfs://" + IpfsHashJson)
+  var hashString = String(hash);
+
 res.send(`NFT minted at address: ${hash}`);
-console.log("console minted at"+ hash);
-// web33.eth.getTransactionReceipt(hash)
-// .then(function(data) {
-//   let transaction = data;
-//   let logs = data.logs;
-//   console.log(logs, transaction);
-//   console.log(web33.utils.hexToNumber(logs[0].topics[3]));
-// })
-// .catch(function(error) {
-//   console.error("Error fetching transaction receipt:", error);
-  // });
- 
+  console.log("console minted at" + hash);
+  console.log("type of hash is " + typeof(hash) + "type of hashString is" + typeof(hashString))
 
 const options = {
   method: 'POST',
-  url: 'https://eth-sepolia.g.alchemy.com/v2/sLvAuK_Bko_iGiJMHW8VIrWCwbGJPEar',
   headers: {accept: 'application/json', 'content-type': 'application/json'},
-  data: {
+  body: JSON.stringify({
     id: 1,
     jsonrpc: '2.0',
-    params: ['0xe15c567e834ef478bed3cf74ff88491fe9c24d6cd65dbace158ed9b6a801e897'],
-    method: 'eth_getTransactionByHash'
-  }
+    params: [hash],
+    method: 'eth_getTransactionReceipt'
+  })
 };
 
-axios
-  .request(options)
-  .then(function (response) {
-    console.log(response.data);
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
+fetch('https://eth-sepolia.g.alchemy.com/v2/sLvAuK_Bko_iGiJMHW8VIrWCwbGJPEar', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));
+  // console.log("check point after axios")
 });
 
 // Start the server
